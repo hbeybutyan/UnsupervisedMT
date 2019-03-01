@@ -13,7 +13,7 @@ set -e
 
 #N_MONO=10000000  # number of monolingual sentences for each language
 N_MONO=1082  # number of monolingual sentences for each language
-CODES=60000      # number of BPE codes
+CODES=600      # number of BPE codes
 N_THREADS=48     # number of threads in data preprocessing
 N_EPOCHS=10      # number of fastText epochs
 
@@ -90,6 +90,7 @@ if [ ! -d "$FASTBPE_DIR" ]; then
 fi
 echo "fastBPE found in: $FASTBPE_DIR"
 
+
 # Compile fastBPE
 cd $TOOLS_PATH
 if [ ! -f "$FASTBPE" ]; then
@@ -163,7 +164,7 @@ if ! [[ "$(wc -l < $TGT_RAW)" -eq "$N_MONO" ]]; then echo "ERROR: Number of line
 if ! [[ -f "$SRC_TOK" && -f "$TGT_TOK" ]]; then
   echo "Tokenize monolingual data..."
   cat $SRC_RAW | $NORM_PUNC -l en | $TOKENIZER -l en -no-escape -threads $N_THREADS > $SRC_TOK
-  cat $TGT_RAW | $NORM_PUNC -l fr | $TOKENIZER -l fr -no-escape -threads $N_THREADS > $TGT_TOK
+  cat $TGT_RAW | $NORM_PUNC -l en | $TOKENIZER -l en -no-escape -threads $N_THREADS > $TGT_TOK
 fi
 echo "Formal data tokenized in: $SRC_TOK"
 echo "Informal data tokenized in: $TGT_TOK"
@@ -204,11 +205,12 @@ fi
 echo "Formal binarized data in: $SRC_TOK.$CODES.pth"
 echo "Informal binarized data in: $TGT_TOK.$CODES.pth"
 
-exit 1
 
 #
 # Download parallel data (for evaluation only)
 #
+
+exit 1
 
 cd $PARA_PATH
 
