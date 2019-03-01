@@ -69,6 +69,11 @@ TGT_VALID=$PARA_PATH/dev/informal.val_raw
 SRC_TEST=$PARA_PATH/dev/formal.test_raw
 TGT_TEST=$PARA_PATH/dev/informal.test_raw
 
+SRC_VALID_RAW=$PARA_PATH/dev/formal.val_raw
+TGT_VALID_RAW=$PARA_PATH/dev/informal.val_raw
+SRC_TEST_RAW=$PARA_PATH/dev/formal.test_raw
+TGT_TEST_RAW=$PARA_PATH/dev/informal.test_raw
+
 
 #
 # Download and install tools
@@ -213,32 +218,29 @@ echo "Informal binarized data in: $TGT_TOK.$CODES.pth"
 cd $PARA_PATH
 
 echo "Downloading parallel data..."
-wget -O formal_valid 'https://drive.google.com/uc?export=download&id=11uukepFDeqxTcLDBhADKuvpTItwsUACn'
-mv formal_valid $SRC_VALID.sgm
-wget -O informal_valid 'https://drive.google.com/uc?export=download&id=1ZjSDMLKk65cKy0U--iC20dQioq7BjX3O'
-mv informal_valid $TGT_VALID.sgm
-
-wget -O formal_test 'https://drive.google.com/uc?export=download&id=15EKsj-oxfb-30SL5Aq-dQWvAe2eO-lkO'
-mv formal_test $SRC_TEST.sgm
-
-wget -O informal_test 'https://drive.google.com/uc?export=download&id=1N1-pZiXmQhmJhroTOkxsG0JKjAqwHOEX'
-mv informal_test $TGT_TEST.sgm
+wget -O $SRC_VALID_RAW 'https://drive.google.com/uc?export=download&id=11uukepFDeqxTcLDBhADKuvpTItwsUACn'
+wget -O $TGT_VALID_RAW 'https://drive.google.com/uc?export=download&id=1ZjSDMLKk65cKy0U--iC20dQioq7BjX3O'
+wget -O $SRC_TEST_RAW 'https://drive.google.com/uc?export=download&id=15EKsj-oxfb-30SL5Aq-dQWvAe2eO-lkO'
+wget -O $TGT_TEST_RAW 'https://drive.google.com/uc?export=download&id=1N1-pZiXmQhmJhroTOkxsG0JKjAqwHOEX'
 
 
 #echo "Extracting parallel data..."
 #tar -xzf dev.tgz
 
 # check valid and test files are here
-if ! [[ -f "$SRC_VALID.sgm" ]]; then echo "$SRC_VALID.sgm is not found!"; exit; fi
-if ! [[ -f "$TGT_VALID.sgm" ]]; then echo "$TGT_VALID.sgm is not found!"; exit; fi
-if ! [[ -f "$SRC_TEST.sgm" ]]; then echo "$SRC_TEST.sgm is not found!"; exit; fi
-if ! [[ -f "$TGT_TEST.sgm" ]]; then echo "$TGT_TEST.sgm is not found!"; exit; fi
+if ! [[ -f "$SRC_VALID_RAW" ]]; then echo "$SRC_VALID_RAW is not found!"; exit; fi
+if ! [[ -f "$TGT_VALID_RAW" ]]; then echo "$TGT_VALID_RAW is not found!"; exit; fi
+if ! [[ -f "$SRC_TEST_RAW" ]]; then echo "$SRC_TEST_RAW is not found!"; exit; fi
+if ! [[ -f "$TGT_TEST_RAW" ]]; then echo "$TGT_TEST_RAW is not found!"; exit; fi
 
 echo "Tokenizing valid and test data..."
-$INPUT_FROM_SGM < $SRC_VALID.sgm | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $SRC_VALID
-$INPUT_FROM_SGM < $TGT_VALID.sgm | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $TGT_VALID
-$INPUT_FROM_SGM < $SRC_TEST.sgm | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $SRC_TEST
-$INPUT_FROM_SGM < $TGT_TEST.sgm | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $TGT_TEST
+
+
+
+cat $SRC_VALID_RAW | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $SRC_VALID
+cat $TGT_VALID_RAW | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $TGT_VALID
+cat $SRC_TEST_RAW | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $SRC_TEST
+cat $TGT_TEST_RAW | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $TGT_TEST
 
 echo "Applying BPE to valid and test files..."
 $FASTBPE applybpe $SRC_VALID.$CODES $SRC_VALID $BPE_CODES $SRC_VOCAB
