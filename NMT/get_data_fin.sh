@@ -64,15 +64,15 @@ SRC_VOCAB=$MONO_PATH/vocab.f.$CODES
 TGT_VOCAB=$MONO_PATH/vocab.in.$CODES
 FULL_VOCAB=$MONO_PATH/vocab.f-in.$CODES
 
-SRC_VALID=$PARA_PATH/dev/formal.val_raw
-TGT_VALID=$PARA_PATH/dev/informal.val_raw
-SRC_TEST=$PARA_PATH/dev/formal.test_raw
-TGT_TEST=$PARA_PATH/dev/informal.test_raw
+SRC_VALID=$PARA_PATH/formal.val_raw
+TGT_VALID=$PARA_PATH/informal.val_raw
+SRC_TEST=$PARA_PATH/formal.test_raw
+TGT_TEST=$PARA_PATH/informal.test_raw
 
-SRC_VALID_RAW=$PARA_PATH/dev/formal.val_raw
-TGT_VALID_RAW=$PARA_PATH/dev/informal.val_raw
-SRC_TEST_RAW=$PARA_PATH/dev/formal.test_raw
-TGT_TEST_RAW=$PARA_PATH/dev/informal.test_raw
+SRC_VALID_RAW=$PARA_PATH/formal.val_raw
+TGT_VALID_RAW=$PARA_PATH/informal.val_raw
+SRC_TEST_RAW=$PARA_PATH/formal.test_raw
+TGT_TEST_RAW=$PARA_PATH/informal.test_raw
 
 
 #
@@ -262,14 +262,14 @@ $UMT_PATH/preprocess.py $FULL_VOCAB $TGT_TEST.$CODES
 echo ""
 echo "===== Data summary"
 echo "Monolingual training data:"
-echo "    EN: $SRC_TOK.$CODES.pth"
-echo "    FR: $TGT_TOK.$CODES.pth"
+echo "    Formal: $SRC_TOK.$CODES.pth"
+echo "    Informal: $TGT_TOK.$CODES.pth"
 echo "Parallel validation data:"
-echo "    EN: $SRC_VALID.$CODES.pth"
-echo "    FR: $TGT_VALID.$CODES.pth"
+echo "    Formal: $SRC_VALID.$CODES.pth"
+echo "    Informal: $TGT_VALID.$CODES.pth"
 echo "Parallel test data:"
-echo "    EN: $SRC_TEST.$CODES.pth"
-echo "    FR: $TGT_TEST.$CODES.pth"
+echo "    Formal: $SRC_TEST.$CODES.pth"
+echo "    Informal: $TGT_TEST.$CODES.pth"
 echo ""
 
 
