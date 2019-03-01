@@ -210,15 +210,18 @@ echo "Informal binarized data in: $TGT_TOK.$CODES.pth"
 # Download parallel data (for evaluation only)
 #
 
-exit 1
-
 cd $PARA_PATH
 
 echo "Downloading parallel data..."
-wget -c http://data.statmt.org/wmt17/translation-task/dev.tgz
+wget -O $SRC_VALID.sgm 'https://drive.google.com/uc?export=download&id=11uukepFDeqxTcLDBhADKuvpTItwsUACn'
+wget -O $TGT_VALID.sgm 'https://drive.google.com/uc?export=download&id=1ZjSDMLKk65cKy0U--iC20dQioq7BjX3O'
 
-echo "Extracting parallel data..."
-tar -xzf dev.tgz
+wget -O $SRC_TEST.sgm 'https://drive.google.com/uc?export=download&id=15EKsj-oxfb-30SL5Aq-dQWvAe2eO-lkO'
+wget -O $TGT_TEST.sgm 'https://drive.google.com/uc?export=download&id=1N1-pZiXmQhmJhroTOkxsG0JKjAqwHOEX'
+
+
+#echo "Extracting parallel data..."
+#tar -xzf dev.tgz
 
 # check valid and test files are here
 if ! [[ -f "$SRC_VALID.sgm" ]]; then echo "$SRC_VALID.sgm is not found!"; exit; fi
@@ -228,9 +231,9 @@ if ! [[ -f "$TGT_TEST.sgm" ]]; then echo "$TGT_TEST.sgm is not found!"; exit; fi
 
 echo "Tokenizing valid and test data..."
 $INPUT_FROM_SGM < $SRC_VALID.sgm | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $SRC_VALID
-$INPUT_FROM_SGM < $TGT_VALID.sgm | $NORM_PUNC -l fr | $REM_NON_PRINT_CHAR | $TOKENIZER -l fr -no-escape -threads $N_THREADS > $TGT_VALID
+$INPUT_FROM_SGM < $TGT_VALID.sgm | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $TGT_VALID
 $INPUT_FROM_SGM < $SRC_TEST.sgm | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $SRC_TEST
-$INPUT_FROM_SGM < $TGT_TEST.sgm | $NORM_PUNC -l fr | $REM_NON_PRINT_CHAR | $TOKENIZER -l fr -no-escape -threads $N_THREADS > $TGT_TEST
+$INPUT_FROM_SGM < $TGT_TEST.sgm | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $TGT_TEST
 
 echo "Applying BPE to valid and test files..."
 $FASTBPE applybpe $SRC_VALID.$CODES $SRC_VALID $BPE_CODES $SRC_VOCAB
