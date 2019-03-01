@@ -213,11 +213,16 @@ echo "Informal binarized data in: $TGT_TOK.$CODES.pth"
 cd $PARA_PATH
 
 echo "Downloading parallel data..."
-wget -O $SRC_VALID.sgm 'https://drive.google.com/uc?export=download&id=11uukepFDeqxTcLDBhADKuvpTItwsUACn'
-wget -O $TGT_VALID.sgm 'https://drive.google.com/uc?export=download&id=1ZjSDMLKk65cKy0U--iC20dQioq7BjX3O'
+wget -O formal_valid 'https://drive.google.com/uc?export=download&id=11uukepFDeqxTcLDBhADKuvpTItwsUACn'
+mv formal_valid $SRC_VALID.sgm
+wget -O informal_valid 'https://drive.google.com/uc?export=download&id=1ZjSDMLKk65cKy0U--iC20dQioq7BjX3O'
+mv informal_valid $TGT_VALID.sgm
 
-wget -O $SRC_TEST.sgm 'https://drive.google.com/uc?export=download&id=15EKsj-oxfb-30SL5Aq-dQWvAe2eO-lkO'
-wget -O $TGT_TEST.sgm 'https://drive.google.com/uc?export=download&id=1N1-pZiXmQhmJhroTOkxsG0JKjAqwHOEX'
+wget -O formal_test 'https://drive.google.com/uc?export=download&id=15EKsj-oxfb-30SL5Aq-dQWvAe2eO-lkO'
+mv formal_test $SRC_TEST.sgm
+
+wget -O informal_test 'https://drive.google.com/uc?export=download&id=1N1-pZiXmQhmJhroTOkxsG0JKjAqwHOEX'
+mv informal_test $TGT_TEST.sgm
 
 
 #echo "Extracting parallel data..."
