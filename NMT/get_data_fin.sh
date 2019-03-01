@@ -218,10 +218,10 @@ echo "Informal binarized data in: $TGT_TOK.$CODES.pth"
 cd $PARA_PATH
 
 echo "Downloading parallel data..."
-wget -O $SRC_VALID_RAW 'https://drive.google.com/uc?export=download&id=11uukepFDeqxTcLDBhADKuvpTItwsUACn'
-wget -O $TGT_VALID_RAW 'https://drive.google.com/uc?export=download&id=1ZjSDMLKk65cKy0U--iC20dQioq7BjX3O'
-wget -O $SRC_TEST_RAW 'https://drive.google.com/uc?export=download&id=15EKsj-oxfb-30SL5Aq-dQWvAe2eO-lkO'
-wget -O $TGT_TEST_RAW 'https://drive.google.com/uc?export=download&id=1N1-pZiXmQhmJhroTOkxsG0JKjAqwHOEX'
+wget -O '$SRC_VALID_RAW' 'https://drive.google.com/uc?export=download&id=11uukepFDeqxTcLDBhADKuvpTItwsUACn'
+wget -O '$TGT_VALID_RAW' 'https://drive.google.com/uc?export=download&id=1ZjSDMLKk65cKy0U--iC20dQioq7BjX3O'
+wget -O '$SRC_TEST_RAW' 'https://drive.google.com/uc?export=download&id=15EKsj-oxfb-30SL5Aq-dQWvAe2eO-lkO'
+wget -O '$TGT_TEST_RAW' 'https://drive.google.com/uc?export=download&id=1N1-pZiXmQhmJhroTOkxsG0JKjAqwHOEX'
 
 
 #echo "Extracting parallel data..."
