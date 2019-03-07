@@ -11,9 +11,9 @@ set -e
 # Data preprocessing configuration
 #
 
-#N_MONO=10000000  # number of monolingual sentences for each language
-N_MONO=1082  # number of monolingual sentences for each language
-CODES=600      # number of BPE codes
+N_MONO=10000000  # number of monolingual sentences for each language
+#N_MONO=1082  # number of monolingual sentences for each language
+CODES=60000      # number of BPE codes
 N_THREADS=48     # number of threads in data preprocessing
 N_EPOCHS=10      # number of fastText epochs
 
@@ -130,12 +130,29 @@ echo "fastText compiled in: $FASTTEXT"
 cd $MONO_PATH
 if [ ! -f "$SRC_DWN" ]; then
   echo "Downloading Formal files..."
-  wget -O formal 'https://drive.google.com/uc?export=download&id=1X6t964hGK8il7wxI2kEawEU4MegWyy9K'
+  wget -O mono.tar.gz 'https://drive.google.com/uc?export=download&id=1tkKt7bo83obtiK07f2tiziwlccrlSrRS'
 fi
-if [ ! -f "$TGT_DWN" ]; then
-  echo "Downloading Informal files..."
-  wget -O informal 'https://drive.google.com/uc?export=download&id=1cHXY4G73RN3Rvcn7xWLG9J_GKjH5oWk3'
+OUTPUT=testzip
+if [ ! -d "$OUTPUT" ]; then
+  echo "Decompressing mono data..."
+  tar -xzvf mono.tar.gz
+else
+  echo "$OUTPUT already decompressed."
 fi
+cd $MONO_PATH/$OUTPUT
+# concatenate monolingual data files
+
+if ! [[ -f "$SRC_RAW" && -f "$TGT_RAW" ]]; then
+  echo "Concatenating monolingual data..."
+  cat $(ls formal_* | grep -v gz) | sed -r '/^\s*$/d' | head -n $N_MONO > $SRC_RAW
+  cat $(ls informal_* | grep -v gz) | sed -r '/^\s*$/d' | head -n $N_MONO > $TGT_RAW
+fi
+cd $MONO_PATH
+
+#if [ ! -f "$TGT_DWN" ]; then
+#  echo "Downloading Informal files..."
+#  wget -O informal 'https://drive.google.com/uc?export=download&id=1cHXY4G73RN3Rvcn7xWLG9J_GKjH5oWk3'
+#fi
 # decompress monolingual data
 ##HBB## USE THIS IF DECOMPRESSION IS NEEDED
 ##HBB##for FILENAME in news*gz; do
@@ -155,8 +172,8 @@ fi
 ##HBB##  cat $(ls news*en* | grep -v gz) | head -n $N_MONO > $SRC_RAW
 ##HBB##  cat $(ls news*fr* | grep -v gz) | head -n $N_MONO > $TGT_RAW
 ##HBB##fi
-mv $SRC_DWN $SRC_RAW
-mv $TGT_DWN $TGT_RAW
+#mv $SRC_DWN $SRC_RAW
+#mv $TGT_DWN $TGT_RAW
 echo "Formal monolingual data is in: $SRC_RAW"
 echo "Informal monolingual data is in: $TGT_RAW"
 
