@@ -11,7 +11,7 @@ set -e
 # Data preprocessing configuration
 #
 
-N_MONO=10000000  # number of monolingual sentences for each language
+N_MONO=7000000  # number of monolingual sentences for each language
 #N_MONO=1082  # number of monolingual sentences for each language
 CODES=60000      # number of BPE codes
 N_THREADS=48     # number of threads in data preprocessing
@@ -130,22 +130,65 @@ echo "fastText compiled in: $FASTTEXT"
 cd $MONO_PATH
 if [ ! -f "$SRC_DWN" ]; then
   echo "Downloading Formal files..."
-  wget -O mono.tar.gz 'https://drive.google.com/uc?export=download&id=1tkKt7bo83obtiK07f2tiziwlccrlSrRS'
+  wget -O mono1.tar.gz 'https://drive.google.com/uc?export=download&id=1Lz3dgAvsqUFc2SKCI_on-PZtwUrqgmyt'
+  wget -O mono2.tar.gz 'https://drive.google.com/uc?export=download&id=1ABmPPP6imT4Mp_8B8wrMj6CxTGd1-LgB'
+  wget -O mono3.tar.gz 'https://drive.google.com/uc?export=download&id=1JRlCOhkMslqmHs7YvBcsGyWK2t01PymH'
+  wget -O mono4.tar.gz 'https://drive.google.com/uc?export=download&id=1OGPT9MXfGo4dAiZB3NmfjQ17lHR16iCX'
+  wget -O mono5.tar.gz 'https://drive.google.com/uc?export=download&id=1jthAVesgoh3-zUH09gZtRrCyo7X1mNlL'
+  wget -O mono6.tar.gz 'https://drive.google.com/uc?export=download&id=1kjaQLWqhAlpIEaG9NDerAEXvzCMYuu6U'
+  wget -O mono7.tar.gz 'https://drive.google.com/uc?export=download&id=1AVp-KMYo64yE3p-IiZ8k8VQSa-a2sQNY'
+  wget -O mono8.tar.gz 'https://drive.google.com/uc?export=download&id=1jsDTmxwQV6ymWwJtVI5LZBtKo4qGAcd5'
+  wget -O mono9.tar.gz 'https://drive.google.com/uc?export=download&id=1V9GuF7f5v0AuZCW0seFiwAU_XyLygHBt'
+  wget -O mono10.tar.gz 'https://drive.google.com/uc?export=download&id=1TYODjpTHP2jknRNf2Ow9DGd5nLEycGC1'
+  wget -O mono11.tar.gz 'https://drive.google.com/uc?export=download&id=1pn_kyDDGhnJroDiAknYHpYs8WsC5l27F'
+  wget -O mono12.tar.gz 'https://drive.google.com/uc?export=download&id=1DthmXZvcP2RihlRAP9UvUnuDS78ecI2T'
+  wget -O mono13.tar.gz 'https://drive.google.com/uc?export=download&id=1eqRDpSEK4jxjZ5BD5HKd7_6r2lmB3p9o'
+  wget -O mono14.tar.gz 'https://drive.google.com/uc?export=download&id=1WCAJWZc157JETO7q1DNifscNZS-GWOLd'
+  wget -O mono15.tar.gz 'https://drive.google.com/uc?export=download&id=1kcr7RSsIIjWKc-YHZj6RJNkX3IW7-3_C'
+  wget -O mono16.tar.gz 'https://drive.google.com/uc?export=download&id=1tQlOvx6LDNZhDOkD0Pb-Z6xpTfQoPwcl'
+  wget -O mono17.tar.gz 'https://drive.google.com/uc?export=download&id=1KZR5C-X8eUQqQcqGsa7NDr1lkV5tpQQE'
+  wget -O mono18.tar.gz 'https://drive.google.com/uc?export=download&id=11YWeH2qTg6G2lW8ahRiY3ZENZWVPYlo8'
+  wget -O mono19.tar.gz 'https://drive.google.com/uc?export=download&id=1TVs02Zt2YVefh4AOYKeX2UNqh7vBLHuJ'
+  wget -O mono20.tar.gz 'https://drive.google.com/uc?export=download&id=1cNQTUhI3kMh_GPHVqm_W0oFbZmToUdZf'
+  wget -O mono21.tar.gz 'https://drive.google.com/uc?export=download&id=1C__6ogurs4u_xY7nJ9vmP1xJczcNzP7-'
+  wget -O mono22.tar.gz 'https://drive.google.com/uc?export=download&id=1NZgD0nCk0udvnl5ZGfO3HWFucLPeKoVu'
+  wget -O mono23.tar.gz 'https://drive.google.com/uc?export=download&id=18C7R6bQwp4ooiI7J0KxcD4uBn7eK0R-4'
+  wget -O mono24.tar.gz 'https://drive.google.com/uc?export=download&id=17WsJT-VVutz1wqXLfC64ZzK6-w6sSuuQ'
+  wget -O mono25.tar.gz 'https://drive.google.com/uc?export=download&id=15fHMSDtIwTyRRjokDEiGcK5Eeo24yJn9'
+  wget -O mono26.tar.gz 'https://drive.google.com/uc?export=download&id=1zyTYg-cYw6-Sj2j1U-QrKIVqRk0F1Tj2'
+  wget -O mono27.tar.gz 'https://drive.google.com/uc?export=download&id=1u3wejKHUEPZWLpkuGJbOL3UpATllUAG8'
+  wget -O mono28.tar.gz 'https://drive.google.com/uc?export=download&id=170bDAwe83ZHES_3R6vG3WZ6o_2e7TNpA'
+  wget -O mono29.tar.gz 'https://drive.google.com/uc?export=download&id=1AtmBPwsZhXuluBbNdEp06n-W4IUH7OYy'
+  wget -O mono30.tar.gz 'https://drive.google.com/uc?export=download&id=1iL7LFiNdAfDymqYOUX6fSsADC1ZdaQHb'
+  wget -O mono31.tar.gz 'https://drive.google.com/uc?export=download&id=1ndWfRnO8hPFAnGkEvGiUAEfuxfEb9vCz'
+  wget -O mono32.tar.gz 'https://drive.google.com/uc?export=download&id=1kviWzD0TosLCtZMJKE0wmyBlJaByuHkJ'
+
+  for FILENAME in mono*tar.gz; do
+    OUTPUT="${FILENAME::-7}"
+    if [ ! -f "$OUTPUT" ]; then
+      echo "Decompressing $FILENAME..."
+      tar -xzf $FILENAME
+    else
+      echo "$OUTPUT already decompressed."
+    fi
+  done
+  for DIRNAME in output*; do
+    cd $DIRNAME
+    if ls formal_* 1> /dev/null 2>&1; then
+      cat $(ls formal_* | grep -v gz) | sed -r '/^\s*$/d' >> $MONO_PATH/formal
+    fi
+    if ls informal_* 1> /dev/null 2>&1; then
+      cat $(ls informal_* | grep -v gz) | sed -r '/^\s*$/d' >> $MONO_PATH/informal
+    fi
+    cd $MONO_PATH
+  done
 fi
-OUTPUT=testzip
-if [ ! -d "$OUTPUT" ]; then
-  echo "Decompressing mono data..."
-  tar -xzvf mono.tar.gz
-else
-  echo "$OUTPUT already decompressed."
-fi
-cd $MONO_PATH/$OUTPUT
-# concatenate monolingual data files
+
 
 if ! [[ -f "$SRC_RAW" && -f "$TGT_RAW" ]]; then
-  echo "Concatenating monolingual data..."
-  cat $(ls formal_* | grep -v gz) | sed -r '/^\s*$/d' | head -n $N_MONO > $SRC_RAW
-  cat $(ls informal_* | grep -v gz) | sed -r '/^\s*$/d' | head -n $N_MONO > $TGT_RAW
+  echo "Cutting monolingual data..."
+  cat formal | head -n $N_MONO > $SRC_RAW
+  cat informal | head -n $N_MONO > $TGT_RAW
 fi
 cd $MONO_PATH
 
