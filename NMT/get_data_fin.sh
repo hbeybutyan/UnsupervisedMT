@@ -180,10 +180,10 @@ if [ ! -f "$SRC_DWN" ]; then
   for DIRNAME in output*; do
     cd $DIRNAME
     if ls formal_* 1> /dev/null 2>&1; then
-      cat $(ls formal_* | grep -v gz) | sed -r '/^\s*$/d' >> $MONO_PATH/formal
+      cat $(ls formal_* | grep -v gz) | sed -r '/^\s*$/d' >> $SRC_DWN
     fi
     if ls informal_* 1> /dev/null 2>&1; then
-      cat $(ls informal_* | grep -v gz) | sed -r '/^\s*$/d' >> $MONO_PATH/informal
+      cat $(ls informal_* | grep -v gz) | sed -r '/^\s*$/d' >> $TGT_DWN
     fi
     cd $MONO_PATH
   done
@@ -192,8 +192,8 @@ fi
 
 if ! [[ -f "$SRC_RAW" && -f "$TGT_RAW" ]]; then
   echo "Cutting monolingual data..."
-  cat formal | head -n $N_MONO > $SRC_RAW
-  cat informal | head -n $N_MONO > $TGT_RAW
+  cat $SRC_DWN | head -n $N_MONO > $SRC_RAW
+  cat $TGT_DWN | head -n $N_MONO > $TGT_RAW
 fi
 cd $MONO_PATH
 
