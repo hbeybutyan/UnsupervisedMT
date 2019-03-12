@@ -64,6 +64,11 @@ SRC_VOCAB=$MONO_PATH/vocab.f.$CODES
 TGT_VOCAB=$MONO_PATH/vocab.in.$CODES
 FULL_VOCAB=$MONO_PATH/vocab.f-in.$CODES
 
+PARA_SRC=$PARA_PATH/formal.train
+PARA_TGT=$PARA_PATH/informal.train
+PARA_SRC_RAW=$PARA_PATH/formal.train.raw
+PARA_TGT_RAW=$PARA_PATH/informal.train.raw
+
 SRC_VALID=$PARA_PATH/formal.val
 TGT_VALID=$PARA_PATH/informal.val
 SRC_TEST=$PARA_PATH/formal.test
@@ -276,18 +281,29 @@ echo "Informal binarized data in: $TGT_TOK.$CODES.pth"
 #
 
 cd $PARA_PATH
-
 echo "Downloading parallel data..."
+wget -O $PARA_SRC.fandr 'https://drive.google.com/uc?export=download&id=1Xjt9fjwocF_KaGM1I5scc7UlCvbEgf9w'
+wget -O $PARA_TGT.fandr 'https://drive.google.com/uc?export=download&id=1G_KWnjVuJrr3GeJTpe8Al7ngPzIBxyR8'
+wget -O $PARA_SRC.eandm 'https://drive.google.com/uc?export=download&id=1XQbMTj_4CQKfdeJKS1wuT6ZDkchYuGQB'
+wget -O $PARA_TGT.eandm 'https://drive.google.com/uc?export=download&id=1npcrOB-t2TB2SS_MMq_Q_RD-mPbH3Nzu'
+
 wget -O $SRC_VALID_RAW 'https://drive.google.com/uc?export=download&id=11uukepFDeqxTcLDBhADKuvpTItwsUACn'
 wget -O $TGT_VALID_RAW 'https://drive.google.com/uc?export=download&id=1ZjSDMLKk65cKy0U--iC20dQioq7BjX3O'
 wget -O $SRC_TEST_RAW 'https://drive.google.com/uc?export=download&id=15EKsj-oxfb-30SL5Aq-dQWvAe2eO-lkO'
 wget -O $TGT_TEST_RAW 'https://drive.google.com/uc?export=download&id=1N1-pZiXmQhmJhroTOkxsG0JKjAqwHOEX'
+
+cat $PARA_SRC.fandr > $PARA_SRC_RAW
+cat $PARA_TGT.fandr > $PARA_TGT_RAW
+cat $PARA_SRC.eandm >> $PARA_SRC_RAW
+cat $PARA_TGT.eandm >> $PARA_TGT_RAW
 
 
 #echo "Extracting parallel data..."
 #tar -xzf dev.tgz
 
 # check valid and test files are here
+if ! [[ -f "$PARA_SRC" ]]; then echo "$PARA_SRC is not found!"; exit; fi
+if ! [[ -f "$PARA_TGT" ]]; then echo "$PARA_TGT is not found!"; exit; fi
 if ! [[ -f "$SRC_VALID_RAW" ]]; then echo "$SRC_VALID_RAW is not found!"; exit; fi
 if ! [[ -f "$TGT_VALID_RAW" ]]; then echo "$TGT_VALID_RAW is not found!"; exit; fi
 if ! [[ -f "$SRC_TEST_RAW" ]]; then echo "$SRC_TEST_RAW is not found!"; exit; fi
@@ -295,21 +311,25 @@ if ! [[ -f "$TGT_TEST_RAW" ]]; then echo "$TGT_TEST_RAW is not found!"; exit; fi
 
 echo "Tokenizing valid and test data..."
 
-
-
+cat $PARA_SRC_RAW | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $PARA_SRC
+cat $PARA_TGT_RAW | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $PARA_TGT
 cat $SRC_VALID_RAW | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $SRC_VALID
 cat $TGT_VALID_RAW | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $TGT_VALID
 cat $SRC_TEST_RAW | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $SRC_TEST
 cat $TGT_TEST_RAW | $NORM_PUNC -l en | $REM_NON_PRINT_CHAR | $TOKENIZER -l en -no-escape -threads $N_THREADS > $TGT_TEST
 
 echo "Applying BPE to valid and test files..."
+$FASTBPE applybpe $PARA_SRC.$CODES $PARA_SRC $BPE_CODES $SRC_VOCAB
+$FASTBPE applybpe $PARA_TGT.$CODES $PARA_TGT $BPE_CODES $TGT_VOCAB
 $FASTBPE applybpe $SRC_VALID.$CODES $SRC_VALID $BPE_CODES $SRC_VOCAB
 $FASTBPE applybpe $TGT_VALID.$CODES $TGT_VALID $BPE_CODES $TGT_VOCAB
 $FASTBPE applybpe $SRC_TEST.$CODES $SRC_TEST $BPE_CODES $SRC_VOCAB
 $FASTBPE applybpe $TGT_TEST.$CODES $TGT_TEST $BPE_CODES $TGT_VOCAB
 
 echo "Binarizing data..."
-rm -f $SRC_VALID.$CODES.pth $TGT_VALID.$CODES.pth $SRC_TEST.$CODES.pth $TGT_TEST.$CODES.pth
+rm -f $PARA_SRC.$CODES.pth $PARA_TGT.$CODES.pth $SRC_VALID.$CODES.pth $TGT_VALID.$CODES.pth $SRC_TEST.$CODES.pth $TGT_TEST.$CODES.pth
+$UMT_PATH/preprocess.py $FULL_VOCAB $PARA_SRC.$CODES
+$UMT_PATH/preprocess.py $FULL_VOCAB $PARA_TGT.$CODES
 $UMT_PATH/preprocess.py $FULL_VOCAB $SRC_VALID.$CODES
 $UMT_PATH/preprocess.py $FULL_VOCAB $TGT_VALID.$CODES
 $UMT_PATH/preprocess.py $FULL_VOCAB $SRC_TEST.$CODES
@@ -324,6 +344,9 @@ echo "===== Data summary"
 echo "Monolingual training data:"
 echo "    Formal: $SRC_TOK.$CODES.pth"
 echo "    Informal: $TGT_TOK.$CODES.pth"
+echo "Parallel train data:"
+echo "    Formal: $PARA_SRC.$CODES.pth"
+echo "    Informal: $PARA_TGT.$CODES.pth"
 echo "Parallel validation data:"
 echo "    Formal: $SRC_VALID.$CODES.pth"
 echo "    Informal: $TGT_VALID.$CODES.pth"
@@ -331,7 +354,6 @@ echo "Parallel test data:"
 echo "    Formal: $SRC_TEST.$CODES.pth"
 echo "    Informal: $TGT_TEST.$CODES.pth"
 echo ""
-
 
 #
 # Train fastText on concatenated embeddings
