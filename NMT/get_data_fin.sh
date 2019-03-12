@@ -302,8 +302,8 @@ cat $PARA_TGT.eandm >> $PARA_TGT_RAW
 #tar -xzf dev.tgz
 
 # check valid and test files are here
-if ! [[ -f "$PARA_SRC" ]]; then echo "$PARA_SRC is not found!"; exit; fi
-if ! [[ -f "$PARA_TGT" ]]; then echo "$PARA_TGT is not found!"; exit; fi
+if ! [[ -f "$PARA_SRC_RAW" ]]; then echo "$PARA_SRC_RAW is not found!"; exit; fi
+if ! [[ -f "$PARA_TGT_RAW" ]]; then echo "$PARA_TGT_RAW is not found!"; exit; fi
 if ! [[ -f "$SRC_VALID_RAW" ]]; then echo "$SRC_VALID_RAW is not found!"; exit; fi
 if ! [[ -f "$TGT_VALID_RAW" ]]; then echo "$TGT_VALID_RAW is not found!"; exit; fi
 if ! [[ -f "$SRC_TEST_RAW" ]]; then echo "$SRC_TEST_RAW is not found!"; exit; fi
